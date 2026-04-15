@@ -3,8 +3,8 @@ bot_token = "${DISCORD_BOT_TOKEN}"
 allowed_channels = ["${KIRO_USAGE_REPORT_CHANNEL_ID}"]
 
 [agent]
-command = "kiro-cli"
-args = ["acp", "--trust-all-tools"]
+command = "claude"
+args = ["--dangerously-skip-permissions"]
 working_dir = "/home/agent/projects"
 
 [pool]

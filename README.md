@@ -7,7 +7,7 @@
 ```
 Discord Server: 比奇堡
 │
-├── AI 角色（OpenAB + kiro-cli）
+├── AI 角色（OpenAB + Claude Code）
 │   ├── 🧽 海綿寶寶 — 全端工程師
 │   ├── ⭐ 派大星 — 後端工程師
 │   └── 🐌 小蝸 — 維運助手（未啟用）
@@ -26,9 +26,9 @@ cp .env.example .env
 # 2. 啟動
 docker compose up -d --build
 
-# 3. 各角色登入 kiro-cli
-docker exec -it bob kiro-cli login --use-device-flow
-docker exec -it patrick kiro-cli login --use-device-flow
+# 3. 各角色登入 claude
+docker exec -it bob claude login
+docker exec -it patrick claude login
 
 # 4. 登入 gh（如需 git 操作）
 docker exec -it bob gh auth login

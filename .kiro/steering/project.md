@@ -6,11 +6,11 @@ inclusion: manual
 
 ## 這是什麼
 
-這是一個基於 OpenAB 的 Discord AI 開發團隊配置專案。每個角色是一個獨立的 Docker 容器，透過 OpenAB 橋接 Discord 和 kiro-cli，讓 AI agent 在 Discord 上以海綿寶寶卡通角色的身份與使用者互動。
+這是一個基於 OpenAB 的 Discord AI 開發團隊配置專案。每個角色是一個獨立的 Docker 容器，透過 OpenAB 橋接 Discord 和 Claude Code，讓 AI agent 在 Discord 上以海綿寶寶卡通角色的身份與使用者互動。
 
 ## 架構
 
-- AI 角色使用 OpenAB（Rust）+ kiro-cli，定義在 `agents/` 底下
+- AI 角色使用 OpenAB（Rust）+ Claude Code，定義在 `agents/` 底下
 - 獨立服務（如 slash command bot）定義在 `services/` 底下
 - 所有容器透過 `docker-compose.yml` 管理
 - 環境變數（token、channel ID、AWS 認證）集中在 `.env`
@@ -48,7 +48,7 @@ bikini-bottom/
 - 看 logs：`docker compose logs -f bob`
 - 更新 OpenAB：`docker compose build --pull && docker compose up -d`
 - 新增角色：參考 `docs/new-agent-sop.md`
-- 角色登入：`docker exec -it <name> kiro-cli login --use-device-flow`
+- 角色登入：`docker exec -it <name> claude login`
 
 ## 注意事項
 

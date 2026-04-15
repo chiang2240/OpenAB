@@ -33,8 +33,8 @@ bot_token = "${DISCORD_BOT_TOKEN}"
 allowed_channels = ["${CHANNEL_GENERAL}"]
 
 [agent]
-command = "kiro-cli"
-args = ["acp", "--trust-all-tools"]
+command = "claude"
+args = ["--dangerously-skip-permissions"]
 working_dir = "/home/agent/projects"
 
 [pool]
@@ -158,8 +158,8 @@ docker compose up -d --build
 ## 首次登入
 
 ```bash
-# kiro-cli 登入
-docker exec -it krabs kiro-cli login --use-device-flow
+# claude 登入
+docker exec -it krabs claude login
 
 # gh 登入（如果需要 git 操作）
 docker exec -it krabs gh auth login
@@ -188,6 +188,6 @@ docker compose logs krabs --tail 20
 - [ ] `agents/krabs/.kiro/steering/memory.md` 已建立
 - [ ] `.env` 已新增 token
 - [ ] `docker-compose.yml` 已新增 service
-- [ ] `kiro-cli login` 已完成
+- [ ] `claude login` 已完成
 - [ ] `gh auth login` 已完成（如需要）
 - [ ] Discord 測試 `@` 有回應
