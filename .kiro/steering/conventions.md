@@ -1,3 +1,7 @@
+---
+inclusion: manual
+---
+
 # 開發慣例
 
 ## 語言
@@ -24,3 +28,10 @@
 - Bot token：`DISCORD_BOT_TOKEN_<ALIAS>`（例如 `DISCORD_BOT_TOKEN_BOB`）
 - Channel ID：`CHANNEL_<NAME>`（例如 `CHANNEL_GENERAL`）
 - 新增變數時同步更新 `.env.example`
+
+## Git
+
+- 推送前先開分支，分支命名格式：`kiro_<YYYYMMDD>_<修改目標>`（例如 `kiro_20260415_slash-bot-usage-activity`）
+- 修改目標使用英文小寫，多個單字用 `-` 連接
+- commit message 使用繁體中文，格式：`feat/fix/chore: 簡短描述`，可附多行說明
+- 推送後到 GitHub 開 PR，不直接 push 到 master
