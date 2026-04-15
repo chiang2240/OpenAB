@@ -13,12 +13,11 @@ agents/*/data/
 agents/*/.bash_history
 agents/*/.gitconfig
 
-# kiro-cli session 資料
-agents/*/.kiro/sessions/
-agents/*/.kiro/settings/
+# Claude Code 資料
+agents/*/.claude/
 
 # 動態記憶（每個環境不同）
-agents/*/.kiro/steering/memory.md
+agents/*/memory.md
 
 # 舊的 steering 目錄（已搬到 agents/）
 steering-*/

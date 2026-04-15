@@ -7,13 +7,10 @@
 ```
 Discord Server: 比奇堡
 │
-├── AI 角色（OpenAB + Claude Code）
-│   ├── 🧽 海綿寶寶 — 全端工程師
-│   ├── ⭐ 派大星 — 後端工程師
-│   └── 🐌 小蝸 — 維運助手（未啟用）
-│
-└── 獨立服務
-    └── 🔧 slash-bot — /usage 等查詢指令
+└── AI 角色（OpenAB + Claude Code）
+    ├── 🧽 海綿寶寶 — 全端工程師
+    ├── ⭐ 派大星 — 後端工程師
+    └── 🐌 小蝸 — 維運助手（未啟用）
 ```
 
 ## 快速開始
@@ -21,7 +18,7 @@ Discord Server: 比奇堡
 ```bash
 # 1. 複製環境變數範本
 cp .env.example .env
-# 編輯 .env 填入 token、channel ID、AWS 認證等
+# 編輯 .env 填入 token、channel ID
 
 # 2. 啟動
 docker compose up -d --build
@@ -40,22 +37,18 @@ docker compose restart
 ## 目錄結構
 
 ```
-bikini-bottom/
+OpenAB/
 ├── .env.example              ← 環境變數範本
 ├── .gitignore
-├── Dockerfile                ← 基於官方 OpenAB image + git
+├── CLAUDE.md                 ← 專案說明與開發慣例
+├── Dockerfile                ← 基於官方 OpenAB image + git + Claude Code
 ├── docker-compose.yml
 ├── agents/                   ← AI 角色
 │   ├── bob/                  ← 海綿寶寶
 │   │   ├── config.toml
-│   │   └── .kiro/steering/
+│   │   └── CLAUDE.md         ← 個性 + 工作流程
 │   ├── patrick/              ← 派大星
 │   └── gary/                 ← 小蝸
-├── services/                 ← 獨立服務
-│   └── slash-bot/
-│       ├── Dockerfile
-│       ├── bot.py
-│       └── query_usage.py
 └── docs/
     └── new-agent-sop.md      ← 新增角色 SOP
 ```

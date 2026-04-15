@@ -53,15 +53,3 @@ services:
   #     - ./agents/gary/config.toml:/etc/openab/config.toml:ro
   #     - ./agents/gary:/home/agent
 
-  # ─── 獨立服務 ───────────────────────────────────────
-  slash-bot:
-    build: ./services/slash-bot
-    container_name: slash-bot
-    restart: unless-stopped
-    environment:
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_GARY}
-      - DISCORD_GUILD_ID=${DISCORD_GUILD_ID}
-      - SLASH_BOT_CHANNEL_ID=${SLASH_BOT_CHANNEL_ID}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_DEFAULT_REGION=us-east-1
