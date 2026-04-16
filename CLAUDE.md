@@ -1,8 +1,8 @@
-# 比奇堡開發團隊 — 專案概述
+# 南方公園開發團隊 — 專案概述
 
 ## 這是什麼
 
-這是一個基於 OpenAB 的 Discord AI 開發團隊配置專案。每個角色是一個獨立的 Docker 容器，透過 OpenAB 橋接 Discord 和 Claude Code，讓 AI agent 在 Discord 上以海綿寶寶卡通角色的身份與使用者互動。
+這是一個基於 OpenAB 的 Discord AI 開發團隊配置專案。每個角色是一個獨立的 Docker 容器，透過 OpenAB 橋接 Discord 和 Claude Code，讓 AI agent 在 Discord 上以南方公園卡通角色的身份與使用者互動。
 
 ## 架構
 
@@ -20,11 +20,12 @@ OpenAB/
 ├── Dockerfile                ← 基於官方 OpenAB image + git + Claude Code
 ├── docker-compose.yml        ← 所有服務定義
 ├── agents/                   ← AI 角色設定
-│   ├── bob/                  ← 🧽 海綿寶寶（全端工程師）
+│   ├── cartman/              ← 👑 卡特曼（全端工程師）
 │   │   ├── config.toml
 │   │   └── CLAUDE.md         ← 個性 + 工作流程
-│   ├── patrick/              ← ⭐ 派大星（後端工程師）
-│   └── gary/                 ← 🐌 小蝸（維運助手，未啟用）
+│   ├── stan/                 ← 🎿 斯坦（前端工程師）
+│   ├── kyle/                 ← 🧢 凱爾（後端工程師）
+│   └── kenny/                ← 🧡 肯尼（維運助手）
 └── docs/
     └── new-agent-sop.md      ← 新增角色 SOP
 ```
@@ -33,9 +34,10 @@ OpenAB/
 
 | 角色 | 別名 | 職責 | 狀態 |
 |------|------|------|------|
-| 🧽 海綿寶寶 | bob | 全端工程師 | 運作中 |
-| ⭐ 派大星 | patrick | 後端工程師 | 運作中 |
-| 🐌 小蝸 | gary | 維運助手 | 未啟用 |
+| 👑 卡特曼 | cartman | 全端工程師 | 運作中 |
+| 🎿 斯坦 | stan | 前端工程師 | 運作中 |
+| 🧢 凱爾 | kyle | 後端工程師 | 運作中 |
+| 🧡 肯尼 | kenny | 維運助手 | 運作中 |
 
 ## 常用操作
 
@@ -54,7 +56,7 @@ OpenAB/
 
 ### 角色管理
 - 每個角色一個獨立目錄在 `agents/<alias>/`
-- 角色別名使用英文小寫（bob, patrick, gary）
+- 角色別名使用英文小寫（cartman, stan, kyle, kenny）
 - 新增角色遵循 `docs/new-agent-sop.md`
 - 角色的 config.toml 中使用 `${ENV_VAR}` 引用環境變數，實際值放 `.env`
 
