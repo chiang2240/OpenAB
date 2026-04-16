@@ -20,7 +20,7 @@
 以新增「蟹老闆」(krabs) 為例：
 
 ```bash
-mkdir -p agents/krabs/.kiro/steering
+mkdir -p agents/krabs
 ```
 
 ## 建立設定檔
@@ -33,8 +33,8 @@ bot_token = "${DISCORD_BOT_TOKEN}"
 allowed_channels = ["${CHANNEL_GENERAL}"]
 
 [agent]
-command = "kiro-cli"
-args = ["acp", "--trust-all-tools"]
+command = "claude"
+args = ["--dangerously-skip-permissions"]
 working_dir = "/home/agent/projects"
 
 [pool]
@@ -64,11 +64,9 @@ error_hold_ms = 2500
 
 可自訂 `coding` emoji 為角色代表符號。
 
-## 建立 Steering 檔案
+## 建立 CLAUDE.md
 
-### personality.md（必要）
-
-建立 `agents/krabs/.kiro/steering/personality.md`，包含：
+建立 `agents/krabs/CLAUDE.md`，包含：
 
 - 身份描述
 - 個性與回答風格
@@ -76,6 +74,7 @@ error_hold_ms = 2500
 - 工作職責
 - 互動規則
 - 工作環境（固定內容，複製即可）
+- 工作日誌規範（固定內容，複製即可）
 
 工作環境區塊（每個角色都一樣）：
 
@@ -88,39 +87,38 @@ error_hold_ms = 2500
 - 這個目錄會與本地電腦同步，所以你在這裡寫的程式碼，團隊成員都看得到
 - 使用 `git` 進行版本控制，用 `gh` 操作 GitHub（建立 PR、管理 issue 等）
 - commit 時不需要設定 git 使用者名稱和信箱，環境已經幫你設定好了
+
+## 工作日誌
+
+- 你的記憶不會跨對話保留，所以你必須依賴檔案來記住事情
+- 在 `/home/agent/projects/` 底下維護一份 `WORKLOG.md`
+- 每次開始新的工作前，先讀取 `WORKLOG.md` 了解之前做過什麼
+- 每次完成一項工作後，在 `WORKLOG.md` 最上方新增一筆紀錄，格式如下：
+
+\`\`\`
+## YYYY-MM-DD 簡短標題
+- 做了什麼
+- 目前狀態
+- 待辦事項
+\`\`\`
+
+## 交接原則
+
+- 假設每次對話都是全新的開始
+- 所有重要資訊都要寫進檔案，不要只存在對話裡
+- 如果有人問你之前做了什麼，去讀 `WORKLOG.md`
 ```
 
-### workflow.md（必要）
-
-複製現有角色的 `workflow.md` 即可，內容通用：
+可參考現有角色的 CLAUDE.md：
 
 ```bash
-cp agents/bob/.kiro/steering/workflow.md agents/krabs/.kiro/steering/workflow.md
-```
-
-### memory.md（會自動被 gitignore）
-
-建立 `agents/krabs/.kiro/steering/memory.md`，初始內容：
-
-```markdown
-# 🦀 蟹老闆的記憶
-
-## 團隊成員
-（列出其他角色）
-
-## 進行中的專案
-（留空）
-
-## 重要決定與約定
-（留空）
-
-## 備註
-（留空）
+cp agents/bob/CLAUDE.md agents/krabs/CLAUDE.md
+# 再修改角色名稱、個性等內容
 ```
 
 ## 更新 .env
 
-在 `.env` 中新增 token 和需要的 channel 變數：
+在 `.env` 中新增 token：
 
 ```env
 DISCORD_BOT_TOKEN_KRABS=你的token
@@ -147,8 +145,6 @@ DISCORD_BOT_TOKEN_KRABS=你的token
       - ./agents/krabs:/home/agent
 ```
 
-需要的環境變數都要列在 `environment` 裡，確保 config.toml 中的 `${VAR}` 都有對應。
-
 ## 啟動
 
 ```bash
@@ -158,8 +154,8 @@ docker compose up -d --build
 ## 首次登入
 
 ```bash
-# kiro-cli 登入
-docker exec -it krabs kiro-cli login --use-device-flow
+# claude 登入
+docker exec -it krabs claude login
 
 # gh 登入（如果需要 git 操作）
 docker exec -it krabs gh auth login
@@ -183,11 +179,9 @@ docker compose logs krabs --tail 20
 - [ ] Message Content Intent 已開啟
 - [ ] Bot 已邀請到 server
 - [ ] `agents/krabs/config.toml` 已建立
-- [ ] `agents/krabs/.kiro/steering/personality.md` 已建立
-- [ ] `agents/krabs/.kiro/steering/workflow.md` 已建立
-- [ ] `agents/krabs/.kiro/steering/memory.md` 已建立
+- [ ] `agents/krabs/CLAUDE.md` 已建立
 - [ ] `.env` 已新增 token
 - [ ] `docker-compose.yml` 已新增 service
-- [ ] `kiro-cli login` 已完成
+- [ ] `claude login` 已完成
 - [ ] `gh auth login` 已完成（如需要）
 - [ ] Discord 測試 `@` 有回應
