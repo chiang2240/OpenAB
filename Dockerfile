@@ -5,4 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends git curl && \
     apt-get install -y --no-install-recommends nodejs && \
     npm install -g @anthropic-ai/claude-code && \
     rm -rf /var/lib/apt/lists/*
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 USER agent
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
