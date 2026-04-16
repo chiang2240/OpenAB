@@ -6,3 +6,4 @@ RUN apt-get update && apt-get install -y --no-install-recommends git curl && \
     npm install -g @anthropic-ai/claude-code && \
     rm -rf /var/lib/apt/lists/*
 USER agent
+ENTRYPOINT []
