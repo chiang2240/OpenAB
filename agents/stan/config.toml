@@ -1,10 +1,11 @@
 [discord]
 bot_token = "${DISCORD_BOT_TOKEN}"
 allowed_channels = ["${CHANNEL_GENERAL}"]
+allow_user_messages = "mentions"
 
 [agent]
-command = "claude"
-args = ["--dangerously-skip-permissions"]
+command = "claude-agent-acp"
+args = []
 working_dir = "/home/agent/projects"
 
 [pool]

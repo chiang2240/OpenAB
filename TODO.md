@@ -2,44 +2,22 @@
 
 ## 進行中
 
-### 確認 Discord Bot 可以正常運作
-**狀態**：Claude login 已完成，但 bot 回應尚未驗證成功
+### 修正角色與 Discord bot 對應錯誤
 
-**背景**：
-- 四個 bot（cartman、stan、kyle、kenny）的 Docker 容器已設定完成
-- `cartman` 已執行 `claude login`，認證檔案存在 `agents/cartman/.claude/`
-- stan、kyle、kenny 尚未執行 `claude login`
+**狀態**：`.env` 裡的 token 填錯位置，需要對照 Discord Developer Portal 確認
 
-**明天繼續的步驟**：
+**症狀**：`@cartman` 由 Kyle 回應，`@Kyle` 由 Stan 回應，依此類推
 
-1. **確認 `.env` 的 Channel ID 正確**
-   - 用記事本開啟 `C:\Users\USER\OpenAB\.env`
-   - 確認 `CHANNEL_GENERAL` 是**頻道 ID**（不是伺服器 ID）
-   - 在 Discord 對頻道右鍵 → 「複製頻道 ID」取得正確值
+**步驟**：
 
-2. **重啟 cartman 容器**
-   ```powershell
-   cd C:\Users\USER\OpenAB
-   docker compose restart cartman
-   ```
-
-3. **看 log 確認啟動成功**
-   ```powershell
-   docker compose logs -f cartman
-   ```
-   應看到類似：`Connected to Discord`
-
-4. **去 Discord 測試**
-   - 在 `general` 頻道 @卡特曼 發一條訊息
-   - 確認 bot 有回應
-
-5. **其餘三個角色登入**（cartman 確認可以後再做）
-   ```powershell
-   docker exec -it stan claude login
-   docker exec -it kyle claude login
-   docker exec -it kenny claude login
-   docker compose restart
-   ```
+1. 開啟 [Discord Developer Portal](https://discord.com/developers/applications)
+2. 對照以下 Application ID，確認每個 Application 對應哪個角色：
+   - `1493964839079641118` → 目前放在 `DISCORD_BOT_TOKEN_CARTMAN`
+   - `1494154472509800578` → 目前放在 `DISCORD_BOT_TOKEN_STAN`
+   - `1494156557468962987` → 目前放在 `DISCORD_BOT_TOKEN_KYLE`
+   - `1494185596384575651` → 目前放在 `DISCORD_BOT_TOKEN_KENNY`
+3. 依照正確對應修改 `.env`
+4. `docker compose restart`
 
 ---
 
@@ -54,11 +32,9 @@
 - [x] Docker Compose 設定四個角色服務
 - [x] Discord Application 建立四個 bot
 - [x] 開啟 Discord Privileged Gateway Intents
-- [x] cartman 執行 `claude login`（認證完成）
-
----
-
-## 已知問題待確認
-
-- [ ] **Dockerfile 缺少 `ENTRYPOINT []`**：需確認基底 image 的 entrypoint 是否會干擾啟動（見 `docs/LESSONS.md`）
-- [ ] **stan、kyle、kenny 尚未 `claude login`**：等 cartman 確認可用後再做其他三個
+- [x] 四個角色 `claude login` 認證完成
+- [x] Dockerfile ENTRYPOINT 問題修正
+- [x] 安裝 `@agentclientprotocol/claude-agent-acp`，修正 initialize timeout
+- [x] 所有 config.toml 改用 `claude-agent-acp` 指令
+- [x] docker-compose.yml 修正 OpenAB 新版 ENTRYPOINT 相容問題
+- [x] 加入 `allow_user_messages = "mentions"`，修正多 bot 搶答問題

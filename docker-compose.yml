@@ -11,7 +11,7 @@ services:
     build: .
     container_name: cartman
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && openab run /etc/openab/config.toml"]
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_CARTMAN}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -27,7 +27,7 @@ services:
     build: .
     container_name: stan
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && openab run /etc/openab/config.toml"]
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_STAN}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -43,7 +43,7 @@ services:
     build: .
     container_name: kyle
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && openab run /etc/openab/config.toml"]
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KYLE}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -59,7 +59,7 @@ services:
     build: .
     container_name: kenny
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && openab run /etc/openab/config.toml"]
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KENNY}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
