@@ -2,22 +2,38 @@
 
 ## 進行中
 
-### 修正角色與 Discord bot 對應錯誤
+### 修正多 bot 同時回應問題
 
-**狀態**：`.env` 裡的 token 填錯位置，需要對照 Discord Developer Portal 確認
+**狀態**：tag 任一角色，四個 bot 全部回應
 
-**症狀**：`@cartman` 由 Kyle 回應，`@Kyle` 由 Stan 回應，依此類推
+**根本原因**：
+- OpenAB `mentions` 模式是「訊息有任何 @mention 就回應」，不是「只回應提到自己的」
+- 目前 `latest` image 只支援 `involved` / `mentions`，不支援 `multibot-mentions`
 
-**步驟**：
+**已確認無效的做法**：
+- `allow_user_messages = "multibot-mentions"` → 這版 OpenAB 不支援，容器會 crash
 
-1. 開啟 [Discord Developer Portal](https://discord.com/developers/applications)
-2. 對照以下 Application ID，確認每個 Application 對應哪個角色：
-   - `1493964839079641118` → 目前放在 `DISCORD_BOT_TOKEN_CARTMAN`
-   - `1494154472509800578` → 目前放在 `DISCORD_BOT_TOKEN_STAN`
-   - `1494156557468962987` → 目前放在 `DISCORD_BOT_TOKEN_KYLE`
-   - `1494185596384575651` → 目前放在 `DISCORD_BOT_TOKEN_KENNY`
-3. 依照正確對應修改 `.env`
-4. `docker compose restart`
+**解法選項（擇一）**：
+
+**A. 每個 bot 各自一個頻道（建議）**
+1. 在 Discord 建 4 個頻道：`#cartman`、`#stan`、`#kyle`、`#kenny`
+2. 各自複製 Channel ID，更新 `.env`：
+   ```
+   CHANNEL_CARTMAN=...
+   CHANNEL_STAN=...
+   CHANNEL_KYLE=...
+   CHANNEL_KENNY=...
+   ```
+3. 各角色 `config.toml` 的 `allowed_channels` 改用對應變數
+4. `docker compose down && docker compose up -d`
+
+**B. 等 OpenAB 釋出支援 `multibot-mentions` 的版本**
+- 追蹤 [openabdev/openab releases](https://github.com/openabdev/openab)
+- 更新後改 config：`allow_user_messages = "multibot-mentions"`
+
+---
+
+### ~~修正角色與 Discord bot 對應錯誤~~（已確認 token 對應正確，暫擱置）
 
 ---
 
@@ -38,3 +54,4 @@
 - [x] 所有 config.toml 改用 `claude-agent-acp` 指令
 - [x] docker-compose.yml 修正 OpenAB 新版 ENTRYPOINT 相容問題
 - [x] 加入 `allow_user_messages = "mentions"`，修正多 bot 搶答問題
+- [x] 修正 `CHANNEL_GENERAL` 頻道 ID（舊 ID 失效，更新為 `1494687723192320202`）
