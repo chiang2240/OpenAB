@@ -2,6 +2,24 @@
 
 ## 進行中
 
+### 安裝 MemPalace MCP（AI 跨 session 記憶系統）
+
+**狀態**：尚未開始
+
+**步驟**：
+1. `pip install mempalace`（需 Python 3.9+，約 300 MB）
+2. `mempalace init`（初始化 `~/.mempalace/` 資料庫）
+3. `claude mcp add mempalace mempalace mcp`（加入 MCP）
+4. 重啟 Claude Code，確認 19 個 MCP 工具出現
+
+**參考**：
+- [安裝指南](https://www.mempalace.tech/guides/setup)
+- [GitHub](https://github.com/mempalace/mempalace)
+
+---
+
+
+
 ### 修正多 bot 同時回應問題
 
 **狀態**：tag 任一角色，四個 bot 全部回應
