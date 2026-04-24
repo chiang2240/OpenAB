@@ -15,14 +15,14 @@ if (process.env.FIGMA_API_KEY) {
   };
 }
 
-if (process.env.JIRA_URL && process.env.JIRA_API_TOKEN) {
+if (process.env.ATLASSIAN_SITE_NAME && process.env.ATLASSIAN_API_TOKEN) {
   config.mcpServers.jira = {
     command: 'npx',
-    args: ['-y', '@sooperset/mcp-atlassian'],
+    args: ['-y', '@aashari/mcp-server-atlassian-jira'],
     env: {
-      JIRA_URL: process.env.JIRA_URL,
-      JIRA_USERNAME: process.env.JIRA_USERNAME,
-      JIRA_API_TOKEN: process.env.JIRA_API_TOKEN
+      ATLASSIAN_SITE_NAME: process.env.ATLASSIAN_SITE_NAME,
+      ATLASSIAN_USER_EMAIL: process.env.ATLASSIAN_USER_EMAIL,
+      ATLASSIAN_API_TOKEN: process.env.ATLASSIAN_API_TOKEN
     }
   };
 }

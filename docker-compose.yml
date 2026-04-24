@@ -6,15 +6,15 @@ version: "3.8"
 # 看 logs: docker compose logs -f cartman
 # 更新 OpenAB: docker compose build --pull && docker compose up -d
 
-x-mcp-env: &mcp-env
-  FIGMA_API_KEY: ${FIGMA_API_KEY:-}
-  JIRA_URL: ${JIRA_URL:-}
-  JIRA_USERNAME: ${JIRA_USERNAME:-}
-  JIRA_API_TOKEN: ${JIRA_API_TOKEN:-}
-  JIRA_PROJECT_KEY: ${JIRA_PROJECT_KEY:-}
-
 x-entrypoint: &entrypoint
   entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && setup-mcp.sh && openab run -c /etc/openab/config.toml"]
+
+x-mcp-env: &mcp-env
+  - FIGMA_API_KEY=${FIGMA_API_KEY:-}
+  - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+  - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+  - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
+  - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
 
 services:
   cartman:
@@ -30,9 +30,9 @@ services:
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
-      - JIRA_URL=${JIRA_URL:-}
-      - JIRA_USERNAME=${JIRA_USERNAME:-}
-      - JIRA_API_TOKEN=${JIRA_API_TOKEN:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
       - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/cartman/config.toml:/etc/openab/config.toml:ro
@@ -51,9 +51,9 @@ services:
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
-      - JIRA_URL=${JIRA_URL:-}
-      - JIRA_USERNAME=${JIRA_USERNAME:-}
-      - JIRA_API_TOKEN=${JIRA_API_TOKEN:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
       - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/stan/config.toml:/etc/openab/config.toml:ro
@@ -72,9 +72,9 @@ services:
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
-      - JIRA_URL=${JIRA_URL:-}
-      - JIRA_USERNAME=${JIRA_USERNAME:-}
-      - JIRA_API_TOKEN=${JIRA_API_TOKEN:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
       - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/kyle/config.toml:/etc/openab/config.toml:ro
@@ -93,9 +93,9 @@ services:
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
-      - JIRA_URL=${JIRA_URL:-}
-      - JIRA_USERNAME=${JIRA_USERNAME:-}
-      - JIRA_API_TOKEN=${JIRA_API_TOKEN:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
       - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/kenny/config.toml:/etc/openab/config.toml:ro
