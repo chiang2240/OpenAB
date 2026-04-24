@@ -14,7 +14,7 @@ x-mcp-env: &mcp-env
   JIRA_PROJECT_KEY: ${JIRA_PROJECT_KEY:-}
 
 x-entrypoint: &entrypoint
-  entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && setup-mcp.sh && openab run /etc/openab/config.toml"]
+  entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && setup-mcp.sh && openab run -c /etc/openab/config.toml"]
 
 services:
   cartman:
