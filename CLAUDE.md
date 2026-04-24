@@ -8,8 +8,19 @@
 
 - AI 角色使用 OpenAB（Rust）+ Claude Code，定義在 `agents/` 底下
 - 所有容器透過 `docker-compose.yml` 管理
-- 環境變數（token、channel ID）集中在 `.env`
+- 環境變數（token、channel ID、MCP token）集中在 `.env`
 - 角色的個性和工作規範透過各角色目錄下的 `CLAUDE.md` 設定
+- 容器啟動時 `setup-mcp.sh` 從 env vars 生成 `.claude/settings.local.json`（MCP token 不進 git）
+
+## MCP 整合
+
+| MCP | 用途 | 相關角色 |
+|-----|------|----------|
+| Figma Developer MCP | 讀取設計稿結構（Auto Layout、色票、字型） | 卡特曼、斯坦 |
+| Atlassian MCP | 建立/查詢 Jira tickets | 卡特曼、凱爾 |
+
+### 工作流程
+Figma 連結貼到 Discord → 斯坦/卡特曼讀取設計規格 → 凱爾/卡特曼建 Jira tickets → 工程師開發
 
 ## 目錄結構
 
@@ -17,14 +28,16 @@
 OpenAB/
 ├── .env                      ← 環境變數（不進 git）
 ├── .env.example              ← 環境變數範本
-├── Dockerfile                ← 基於官方 OpenAB image + git + Claude Code
+├── Dockerfile                ← 基於官方 OpenAB image + git + Claude Code + MCP
 ├── docker-compose.yml        ← 所有服務定義
+├── scripts/
+│   └── setup-mcp.sh          ← 容器啟動時從 env vars 生成 MCP 設定
 ├── agents/                   ← AI 角色設定
-│   ├── cartman/              ← 👑 卡特曼（全端工程師）
+│   ├── cartman/              ← 👑 卡特曼（全端工程師，Figma + Jira）
 │   │   ├── config.toml
 │   │   └── CLAUDE.md         ← 個性 + 工作流程
-│   ├── stan/                 ← 🎿 斯坦（前端工程師）
-│   ├── kyle/                 ← 🧢 凱爾（後端工程師）
+│   ├── stan/                 ← 🎿 斯坦（前端工程師，Figma 讀取）
+│   ├── kyle/                 ← 🧢 凱爾（後端工程師，Jira 管理）
 │   └── kenny/                ← 🧡 肯尼（維運助手）
 └── docs/
     └── new-agent-sop.md      ← 新增角色 SOP

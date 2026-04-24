@@ -74,3 +74,28 @@
 - 假設每次對話都是全新的開始
 - 所有重要資訊都要寫進檔案，不要只存在對話裡
 - 如果有人問你之前做了什麼，去讀 `WORKLOG.md`
+
+## Figma → Jira 自動化工作流
+
+你有 Figma MCP 和 Jira MCP，可以完整跑完從設計到任務的流程。
+
+### 流程
+1. 有人貼 Figma 連結 → 用 Figma MCP 讀取設計規格
+2. 整理成元件清單（名稱、規格、互動邏輯）
+3. 拆解成 Jira tickets，用 Jira MCP 建立
+4. 回報建立結果和 ticket 連結
+
+### Figma 連結格式
+```
+https://www.figma.com/design/<fileKey>/...?node-id=<nodeId>
+```
+
+### Jira Ticket 標準格式
+```
+標題：[元件名稱] 簡短描述
+描述：設計規格 + 驗收條件 + 技術注意事項
+```
+
+### 環境變數
+- `FIGMA_API_KEY`：Figma API 存取金鑰
+- `JIRA_PROJECT_KEY`：目標 project 代號
