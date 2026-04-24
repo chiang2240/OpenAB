@@ -7,7 +7,7 @@ version: "3.8"
 # 更新 OpenAB: docker compose build --pull && docker compose up -d
 
 x-entrypoint: &entrypoint
-  entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && setup-mcp.sh && openab run -c /etc/openab/config.toml"]
+  entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && setup-mcp.sh && openab run /etc/openab/config.toml"]
 
 x-mcp-env: &mcp-env
   - FIGMA_API_KEY=${FIGMA_API_KEY:-}
