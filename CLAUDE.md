@@ -1,3 +1,6 @@
+> **每次開始工作前，請先讀 `.claude-memory/` 目錄**（`project.md` 架構、`progress.md` 進度、`feedback.md` 偏好）。
+> 結束工作後，如有重要進展請更新 `progress.md`。
+
 # 南方公園開發團隊 — 專案概述
 
 ## 這是什麼
