@@ -9,13 +9,6 @@ version: "3.8"
 x-entrypoint: &entrypoint
   entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && setup-mcp.sh && openab run /etc/openab/config.toml"]
 
-x-mcp-env: &mcp-env
-  - FIGMA_API_KEY=${FIGMA_API_KEY:-}
-  - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
-  - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
-  - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
-  - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
-
 services:
   cartman:
     build: .
@@ -29,6 +22,8 @@ services:
       - GIT_COMMITTER_NAME=卡特曼 (Cartman)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - RUST_LOG=debug
+      - MEMPALACE_PALACE_PATH=/palace
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
       - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
       - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
@@ -37,6 +32,7 @@ services:
     volumes:
       - ./agents/cartman/config.toml:/etc/openab/config.toml:ro
       - ./agents/cartman:/home/agent
+      - ./palace:/palace
 
   stan:
     build: .
@@ -50,6 +46,7 @@ services:
       - GIT_COMMITTER_NAME=斯坦 (Stan)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
       - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
       - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
@@ -58,6 +55,7 @@ services:
     volumes:
       - ./agents/stan/config.toml:/etc/openab/config.toml:ro
       - ./agents/stan:/home/agent
+      - ./palace:/palace
 
   kyle:
     build: .
@@ -71,6 +69,7 @@ services:
       - GIT_COMMITTER_NAME=凱爾 (Kyle)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
       - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
       - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
@@ -79,6 +78,7 @@ services:
     volumes:
       - ./agents/kyle/config.toml:/etc/openab/config.toml:ro
       - ./agents/kyle:/home/agent
+      - ./palace:/palace
 
   kenny:
     build: .
@@ -92,6 +92,7 @@ services:
       - GIT_COMMITTER_NAME=肯尼 (Kenny)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
       - FIGMA_API_KEY=${FIGMA_API_KEY:-}
       - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
       - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
@@ -100,3 +101,4 @@ services:
     volumes:
       - ./agents/kenny/config.toml:/etc/openab/config.toml:ro
       - ./agents/kenny:/home/agent
+      - ./palace:/palace
