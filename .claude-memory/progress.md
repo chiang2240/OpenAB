@@ -1,6 +1,6 @@
 # 進度與待辦
 
-_最後更新：2026-04-24（公司筆電）_
+_最後更新：2026-04-25（家裡電腦）_
 
 ## 待處理
 
@@ -22,8 +22,10 @@ _最後更新：2026-04-24（公司筆電）_
 - [x] Dockerfile + docker-compose.yml 完整設定
 - [x] 各角色 Claude Code 認證（`claude login`）
 - [x] OpenAB + claude-agent-acp 整合修正
-- [x] **multibot-mentions 啟用**（2026-04-24）
-  - 四個 config.toml 改為 `multibot-mentions`，多 bot 同時回應問題解決
+- [x] **multibot-mentions 已還原為 mentions**（2026-04-25）
+  - 公司電腦曾改為 `multibot-mentions`，但 `latest` image 不支援此值，容器會 crash
+  - 已全部改回 `allow_user_messages = "mentions"`
+  - 多 bot 搶答問題尚未根本解決，解法見 TODO.md（建議每 bot 獨立頻道）
 - [x] **Figma MCP + Jira MCP 整合**（2026-04-24）
   - Dockerfile 預裝 `figma-developer-mcp` + `@aashari/mcp-server-atlassian-jira`
   - `scripts/setup-mcp.sh`：容器啟動時從 env vars 動態生成 `.claude/settings.local.json`
@@ -32,3 +34,10 @@ _最後更新：2026-04-24（公司筆電）_
 - [x] **.claude-memory/ 跨機器記憶同步**（2026-04-24）
   - 透過 git 同步工作進度，CLAUDE.md 頂部加讀取提示
 - [x] 四個容器目前狀態：全部 healthy（`docker compose ps` 可確認）
+- [x] **Dockerfile 補齊（2026-04-25，家裡電腦）**
+  - 加回 `python3`、`@google/gemini-cli`、`mempalace`、`ENTRYPOINT []`
+  - 公司電腦在做 Figma/Jira 整合時漏掉了這幾項
+- [x] **docker-compose.yml 補齊（2026-04-25）**
+  - cartman 加 `RUST_LOG=debug`；四個 agent 加 `MEMPALACE_PALACE_PATH=/palace` 與 `palace` volume
+- [x] **PR #2 已推送**（branch: `claude/review-adapt-code-LxTfO`）
+  - 待 merge 到 master
