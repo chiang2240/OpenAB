@@ -1,6 +1,6 @@
 # 進度與待辦
 
-_最後更新：2026-04-25（家裡電腦）_
+_最後更新：2026-04-25 晚（家裡電腦）_
 
 ## 待處理
 
@@ -41,3 +41,14 @@ _最後更新：2026-04-25（家裡電腦）_
   - cartman 加 `RUST_LOG=debug`；四個 agent 加 `MEMPALACE_PALACE_PATH=/palace` 與 `palace` volume
 - [x] **PR #2 已推送**（branch: `claude/review-adapt-code-LxTfO`）
   - 待 merge 到 master
+- [x] **SOP + 跨機器工作流建立（2026-04-25 晚）**
+  - CLAUDE.md 加入「上班了」/「下班了」觸發詞與五步 SOP
+  - `.claude-memory/feedback.md` 加入跨機器協作規則與懲罰條款
+  - 下次上班說「上班了」，Claude 會自動執行 SOP 再開口
+
+## 下次上班從這裡繼續
+
+1. **PR #2 merge**：`https://github.com/chiang2240/OpenAB/pull/2`，確認沒問題後 merge 到 master
+2. **多 bot 搶答問題**：目前暫時用 `mentions`，根本解法是每個 bot 獨立頻道（見 TODO.md）
+3. **MemPalace MCP**：尚未安裝，需要時再做
+4. **Figma / Jira token**：沒有帳號，功能已架好但尚未測試；有帳號後填 `.env` 即可
