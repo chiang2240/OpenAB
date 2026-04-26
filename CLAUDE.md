@@ -1,3 +1,19 @@
+> ## 觸發詞
+>
+> - **「上班了」**：立刻執行下方 SOP，不要先回應，做完再說
+> - **「下班了」**：更新 `.claude-memory/progress.md` 做好交接，再回應
+>
+> ## 每次對話開始 SOP（順序不可跳）
+>
+> 1. `git fetch` — 同步遠端狀態（使用者可能在另一台機器做過事）
+> 2. `git log --oneline origin/<current-branch> -10` — 確認遠端有無新 commit
+> 3. 若遠端比本地新，先 `git pull` 再繼續
+> 4. 讀 `.claude-memory/progress.md` — 了解目前進度與待辦
+> 5. 讀 `.claude-memory/feedback.md` — 了解協作偏好
+> 6. 用一段話總結：現在在哪個 branch、最近做了什麼、下一步是什麼
+>
+> **不要假設本地狀態是最新的。使用者在公司電腦和家裡電腦都會工作，每次對話可能換了一台機器。**
+
 # 南方公園開發團隊 — 專案概述
 
 ## 這是什麼
@@ -8,8 +24,19 @@
 
 - AI 角色使用 OpenAB（Rust）+ Claude Code，定義在 `agents/` 底下
 - 所有容器透過 `docker-compose.yml` 管理
-- 環境變數（token、channel ID）集中在 `.env`
+- 環境變數（token、channel ID、MCP token）集中在 `.env`
 - 角色的個性和工作規範透過各角色目錄下的 `CLAUDE.md` 設定
+- 容器啟動時 `setup-mcp.sh` 從 env vars 生成 `.claude/settings.local.json`（MCP token 不進 git）
+
+## MCP 整合
+
+| MCP | 用途 | 相關角色 |
+|-----|------|----------|
+| Figma Developer MCP | 讀取設計稿結構（Auto Layout、色票、字型） | 卡特曼、斯坦 |
+| Atlassian MCP | 建立/查詢 Jira tickets | 卡特曼、凱爾 |
+
+### 工作流程
+Figma 連結貼到 Discord → 斯坦/卡特曼讀取設計規格 → 凱爾/卡特曼建 Jira tickets → 工程師開發
 
 ## 目錄結構
 
@@ -17,14 +44,16 @@
 OpenAB/
 ├── .env                      ← 環境變數（不進 git）
 ├── .env.example              ← 環境變數範本
-├── Dockerfile                ← 基於官方 OpenAB image + git + Claude Code
+├── Dockerfile                ← 基於官方 OpenAB image + git + Claude Code + MCP
 ├── docker-compose.yml        ← 所有服務定義
+├── scripts/
+│   └── setup-mcp.sh          ← 容器啟動時從 env vars 生成 MCP 設定
 ├── agents/                   ← AI 角色設定
-│   ├── cartman/              ← 👑 卡特曼（全端工程師）
+│   ├── cartman/              ← 👑 卡特曼（全端工程師，Figma + Jira）
 │   │   ├── config.toml
 │   │   └── CLAUDE.md         ← 個性 + 工作流程
-│   ├── stan/                 ← 🎿 斯坦（前端工程師）
-│   ├── kyle/                 ← 🧢 凱爾（後端工程師）
+│   ├── stan/                 ← 🎿 斯坦（前端工程師，Figma 讀取）
+│   ├── kyle/                 ← 🧢 凱爾（後端工程師，Jira 管理）
 │   └── kenny/                ← 🧡 肯尼（維運助手）
 └── docs/
     └── new-agent-sop.md      ← 新增角色 SOP

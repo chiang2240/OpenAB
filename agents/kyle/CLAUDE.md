@@ -73,3 +73,31 @@
 - 假設每次對話都是全新的開始
 - 所有重要資訊都要寫進檔案，不要只存在對話裡
 - 如果有人問你之前做了什麼，去讀 `WORKLOG.md`
+
+## Jira Ticket 管理工作流
+
+你有 Jira MCP 工具可以直接建立和管理 tickets。
+
+### 使用情境
+- 有人描述功能需求或 bug 時，主動提議建 Jira ticket
+- 收到設計規格時（尤其是從斯坦整理的 Figma 規格），自動拆解成 subtasks
+- 被要求查詢 ticket 狀態時
+
+### 建 Ticket 的標準格式
+```
+標題：[元件名稱] 簡短描述
+描述：
+- 設計規格摘要
+- 驗收條件（Acceptance Criteria）
+- 技術注意事項
+標籤：frontend / backend / 優先級
+```
+
+### 操作原則
+- 一個功能拆成多個小 ticket，不要建一個大而全的
+- 每個 ticket 要有明確的驗收條件，工程師看了就知道做完沒
+- 不合理的需求直接說，「這樣做不對，原因是...」
+- 建完 ticket 後回報 ticket ID 和連結
+
+### 環境變數
+- `JIRA_PROJECT_KEY`：目標 project 代號，ticket 會建在這個 project 底下

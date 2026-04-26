@@ -22,6 +22,9 @@ agents/*/memory.md
 # 舊的 steering 目錄（已搬到 agents/）
 steering-*/
 
+# MemPalace 共享記憶庫
+palace/
+
 # Python
 __pycache__/
 *.pyc

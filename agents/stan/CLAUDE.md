@@ -73,3 +73,26 @@
 - 假設每次對話都是全新的開始
 - 所有重要資訊都要寫進檔案，不要只存在對話裡
 - 如果有人問你之前做了什麼，去讀 `WORKLOG.md`
+
+## Figma 設計稿讀取工作流
+
+你有 Figma MCP 工具可以直接讀取設計稿內容。
+
+### 使用情境
+- 有人貼 Figma 連結時，主動用 MCP 讀取設計規格
+- 不需要截圖，直接從 API 拿到 Auto Layout、色票、字型等結構化資料
+
+### 操作步驟
+1. 從連結提取 `node-id`（URL 中 `node-id=xxx` 的部分）
+2. 用 Figma MCP 工具讀取該 node 的設計規格
+3. 整理成元件清單、設計規格摘要
+4. 如果需要建 Jira ticket，把整理好的規格交給凱爾處理
+
+### Figma 連結格式
+```
+https://www.figma.com/design/<fileKey>/...?node-id=<nodeId>
+```
+
+### 注意
+- Figma Starter 方案 API 有月使用限制，避免不必要的重複呼叫
+- 如果讀取失敗，請使用者補充截圖作為輔助

@@ -6,12 +6,15 @@ version: "3.8"
 # 看 logs: docker compose logs -f cartman
 # 更新 OpenAB: docker compose build --pull && docker compose up -d
 
+x-entrypoint: &entrypoint
+  entrypoint: ["/bin/sh", "-c", "mkdir -p /home/agent/projects && mempalace init /palace --yes 2>/dev/null || true && setup-mcp.sh && openab run /etc/openab/config.toml"]
+
 services:
   cartman:
     build: .
     container_name: cartman
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_CARTMAN}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -19,15 +22,23 @@ services:
       - GIT_COMMITTER_NAME=卡特曼 (Cartman)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - RUST_LOG=debug
+      - MEMPALACE_PALACE_PATH=/palace
+      - FIGMA_API_KEY=${FIGMA_API_KEY:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
+      - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/cartman/config.toml:/etc/openab/config.toml:ro
       - ./agents/cartman:/home/agent
+      - ./palace:/palace
 
   stan:
     build: .
     container_name: stan
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_STAN}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -35,15 +46,22 @@ services:
       - GIT_COMMITTER_NAME=斯坦 (Stan)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
+      - FIGMA_API_KEY=${FIGMA_API_KEY:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
+      - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/stan/config.toml:/etc/openab/config.toml:ro
       - ./agents/stan:/home/agent
+      - ./palace:/palace
 
   kyle:
     build: .
     container_name: kyle
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KYLE}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -51,15 +69,22 @@ services:
       - GIT_COMMITTER_NAME=凱爾 (Kyle)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
+      - FIGMA_API_KEY=${FIGMA_API_KEY:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
+      - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/kyle/config.toml:/etc/openab/config.toml:ro
       - ./agents/kyle:/home/agent
+      - ./palace:/palace
 
   kenny:
     build: .
     container_name: kenny
     restart: unless-stopped
-    command: sh -c "mkdir -p /home/agent/projects && openab run"
+    <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KENNY}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -67,6 +92,13 @@ services:
       - GIT_COMMITTER_NAME=肯尼 (Kenny)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
+      - FIGMA_API_KEY=${FIGMA_API_KEY:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
+      - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/kenny/config.toml:/etc/openab/config.toml:ro
       - ./agents/kenny:/home/agent
+      - ./palace:/palace
