@@ -8,6 +8,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends git curl python
     pip3 install mempalace --break-system-packages && \
     rm -rf /var/lib/apt/lists/*
 COPY scripts/setup-mcp.sh /usr/local/bin/setup-mcp.sh
-RUN chmod +x /usr/local/bin/setup-mcp.sh
+RUN sed -i 's/\r$//' /usr/local/bin/setup-mcp.sh && chmod +x /usr/local/bin/setup-mcp.sh
 USER agent
 ENTRYPOINT []
