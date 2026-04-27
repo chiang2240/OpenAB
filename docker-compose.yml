@@ -65,6 +65,7 @@ services:
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KYLE}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
+      - RUST_LOG=debug
       - GIT_AUTHOR_NAME=凱爾 (Kyle)
       - GIT_COMMITTER_NAME=凱爾 (Kyle)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
