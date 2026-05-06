@@ -1,14 +1,16 @@
 # 進度與待辦
 
-_最後更新：2026-04-24（公司筆電）_
+_最後更新：2026-05-06（公司筆電）_
 
 ## 待處理
 
-### openab run -c 語法（等 image 更新）
-- **狀態**：刻意暫緩
-- **說明**：0.8.1-beta.4 release note 說 `openab run` 改為 `openab run -c <path>`，但 `ghcr.io/openabdev/openab:latest` 實際上還是舊版 binary，改了會 crash
-- **待辦**：等 `latest` image 真正更新後，把 `docker-compose.yml` entrypoint 的 `openab run /etc/openab/config.toml` 改為 `openab run -c /etc/openab/config.toml`
-- **確認方式**：`docker run --rm ghcr.io/openabdev/openab:latest openab run --help`，若出現 `-c, --config` 旗標即可改
+### ⚠️ Discord Role 命名衝突（bot @mention 失效）
+- **狀態**：已診斷，未修復
+- **問題**：Discord 伺服器有四個 role 與 bot 同名（cartman / stan / kyle / kenny），導致打 @cartman 只能選到 role 而非 bot user，OpenAB 不回應
+- **確認方式**：API 抓訊息皆為 `<@&ROLE_ID>`，從未出現 `<@USER_ID>`
+- **修法**：Discord 伺服器設定 → 身分組，把這四個 role 刪掉或改名（如 `cartman-role`）
+- **cartman bot user ID**：`1493964839079641118`（可用於測試原始 mention：`<@1493964839079641118>`）
+- **斯坦/凱爾/肯尼**：同理，需找到各自的 bot user ID 並確認 role 不衝突
 
 ### 安裝 MemPalace MCP
 - **狀態**：尚未開始
@@ -22,6 +24,10 @@ _最後更新：2026-04-24（公司筆電）_
 - [x] Dockerfile + docker-compose.yml 完整設定
 - [x] 各角色 Claude Code 認證（`claude login`）
 - [x] OpenAB + claude-agent-acp 整合修正
+- [x] **openab run -c 語法修正 + image 更新**（2026-05-06）
+  - `latest` image 升至 0.8.3-beta.3，正式棄用 positional arg，改為 `-c` flag
+  - `docker-compose.yml` entrypoint 已更新：`openab run -c /etc/openab/config.toml`
+  - 同時修正 ACP protocolVersion 不相容問題（舊 image 送字串，新 Claude Code 2.1.119 期望數字）
 - [x] **multibot-mentions 啟用**（2026-04-24）
   - 四個 config.toml 改為 `multibot-mentions`，多 bot 同時回應問題解決
 - [x] **Figma MCP + Jira MCP 整合**（2026-04-24）
