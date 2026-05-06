@@ -1,5 +1,18 @@
-> **每次開始工作前，請先讀 `.claude-memory/` 目錄**（`project.md` 架構、`progress.md` 進度、`feedback.md` 偏好）。
-> 結束工作後，如有重要進展請更新 `progress.md`。
+> ## 觸發詞
+>
+> - **「上班了」**：立刻執行下方 SOP，不要先回應，做完再說
+> - **「下班了」**：更新 `.claude-memory/progress.md` 做好交接，再回應
+>
+> ## 每次對話開始 SOP（順序不可跳）
+>
+> 1. `git fetch` — 同步遠端狀態（使用者可能在另一台機器做過事）
+> 2. `git log --oneline origin/<current-branch> -10` — 確認遠端有無新 commit
+> 3. 若遠端比本地新，先 `git pull` 再繼續
+> 4. 讀 `.claude-memory/progress.md` — 了解目前進度與待辦
+> 5. 讀 `.claude-memory/feedback.md` — 了解協作偏好
+> 6. 用一段話總結：現在在哪個 branch、最近做了什麼、下一步是什麼
+>
+> **不要假設本地狀態是最新的。使用者在公司電腦和家裡電腦都會工作，每次對話可能換了一台機器。**
 
 # 南方公園開發團隊 — 專案概述
 

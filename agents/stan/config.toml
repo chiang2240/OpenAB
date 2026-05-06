@@ -2,6 +2,7 @@
 bot_token = "${DISCORD_BOT_TOKEN}"
 allowed_channels = ["${CHANNEL_GENERAL}"]
 allow_user_messages = "multibot-mentions"
+allow_bot_messages = "off"
 
 [agent]
 command = "claude-agent-acp"

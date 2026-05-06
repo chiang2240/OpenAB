@@ -27,6 +27,12 @@ if (process.env.ATLASSIAN_SITE_NAME && process.env.ATLASSIAN_API_TOKEN) {
   };
 }
 
+config.mcpServers.mempalace = {
+  command: 'mempalace',
+  args: ['mcp'],
+  env: { MEMPALACE_PALACE_PATH: process.env.MEMPALACE_PALACE_PATH || '/palace' }
+};
+
 require('fs').writeFileSync(
   '/home/agent/.claude/settings.local.json',
   JSON.stringify(config, null, 2)

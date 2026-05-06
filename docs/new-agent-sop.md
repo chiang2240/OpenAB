@@ -31,10 +31,12 @@ mkdir -p agents/krabs
 [discord]
 bot_token = "${DISCORD_BOT_TOKEN}"
 allowed_channels = ["${CHANNEL_GENERAL}"]
+allow_user_messages = "multibot-mentions"
+allow_bot_messages = "off"
 
 [agent]
-command = "claude"
-args = ["--dangerously-skip-permissions"]
+command = "claude-agent-acp"
+args = []
 working_dir = "/home/agent/projects"
 
 [pool]
@@ -63,6 +65,8 @@ error_hold_ms = 2500
 ```
 
 可自訂 `coding` emoji 為角色代表符號。
+
+`allow_user_messages = "multibot-mentions"` 確保多個 bot 在同一頻道時不會互相搶答，需要被 @ 才回應。
 
 ## 建立 CLAUDE.md
 
@@ -112,13 +116,13 @@ error_hold_ms = 2500
 可參考現有角色的 CLAUDE.md：
 
 ```bash
-cp agents/bob/CLAUDE.md agents/krabs/CLAUDE.md
+cp agents/cartman/CLAUDE.md agents/krabs/CLAUDE.md
 # 再修改角色名稱、個性等內容
 ```
 
 ## 更新 .env
 
-在 `.env` 中新增 token：
+在 `.env` 中新增 token，並同步更新 `.env.example`：
 
 ```env
 DISCORD_BOT_TOKEN_KRABS=你的token
@@ -126,13 +130,14 @@ DISCORD_BOT_TOKEN_KRABS=你的token
 
 ## 更新 docker-compose.yml
 
-在 `services` 區塊新增：
+在 `services` 區塊新增（使用 `<<: *entrypoint` 繼承啟動流程）：
 
 ```yaml
   krabs:
     build: .
     container_name: krabs
     restart: unless-stopped
+    <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KRABS}
       - CHANNEL_GENERAL=${CHANNEL_GENERAL}
@@ -140,10 +145,19 @@ DISCORD_BOT_TOKEN_KRABS=你的token
       - GIT_COMMITTER_NAME=蟹老闆 (Mr. Krabs)
       - GIT_AUTHOR_EMAIL=${GIT_EMAIL}
       - GIT_COMMITTER_EMAIL=${GIT_EMAIL}
+      - MEMPALACE_PALACE_PATH=/palace
+      - FIGMA_API_KEY=${FIGMA_API_KEY:-}
+      - ATLASSIAN_SITE_NAME=${ATLASSIAN_SITE_NAME:-}
+      - ATLASSIAN_USER_EMAIL=${ATLASSIAN_USER_EMAIL:-}
+      - ATLASSIAN_API_TOKEN=${ATLASSIAN_API_TOKEN:-}
+      - JIRA_PROJECT_KEY=${JIRA_PROJECT_KEY:-}
     volumes:
       - ./agents/krabs/config.toml:/etc/openab/config.toml:ro
       - ./agents/krabs:/home/agent
+      - ./palace:/palace
 ```
+
+`<<: *entrypoint` 會自動繼承 `mempalace init`、`setup-mcp.sh`、`openab run` 的啟動流程。
 
 ## 啟動
 
@@ -178,10 +192,11 @@ docker compose logs krabs --tail 20
 - [ ] Discord Application 已建立
 - [ ] Message Content Intent 已開啟
 - [ ] Bot 已邀請到 server
-- [ ] `agents/krabs/config.toml` 已建立
+- [ ] `agents/krabs/config.toml` 已建立（含 `multibot-mentions`）
 - [ ] `agents/krabs/CLAUDE.md` 已建立
 - [ ] `.env` 已新增 token
-- [ ] `docker-compose.yml` 已新增 service
+- [ ] `.env.example` 已同步更新
+- [ ] `docker-compose.yml` 已新增 service（含 `<<: *entrypoint` 和 palace volume）
 - [ ] `claude login` 已完成
 - [ ] `gh auth login` 已完成（如需要）
 - [ ] Discord 測試 `@` 有回應
