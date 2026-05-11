@@ -1,64 +1,65 @@
 # 進度與待辦
 
-_最後更新：2026-05-06 晚（家裡電腦）_
+_最後更新：2026-05-11（下班交接）_
 
 ## 待處理
 
-### 🔴 [最高優先] Discord managed role 命名衝突 — @mention 永遠打到 role 而非 bot
+### 🔴 [最高優先] ANTHROPIC_API_KEY 未設定 — Claude Code 無法運作
 
-**根本原因（已確認）**：
-Discord 邀請 bot 時自動建立同名 managed role（cartman/stan/kyle/kenny）。
-使用者打 @cartman 時補全清單只出現 role，訊息的 `mention_roles` 有值但 `mentions`（user）為空，OpenAB 的 `mentions` 模式認不到。
+`.env` 缺少 `ANTHROPIC_API_KEY`，docker-compose.yml 有引用但值為空字串。
+需要到 [console.anthropic.com](https://console.anthropic.com) 取得 API Key，填進 `.env`：
 
-**已嘗試但失敗**：
-- API 刪除 role → HTTP 403（bot token 沒有 MANAGE_ROLES）
-- API 改名 role → HTTP 403
-- 切換 `involved` 模式 + API 建 thread → bot 回了一次，restart 後忘記 involvement，無法持續
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
 
-**目前最可行的修法（需使用者手動）**：
-1. Discord 伺服器設定 → 整合 → 把 cartman/stan/kyle/kenny 四個 bot 移除（同時刪掉 managed role）
-2. 用以下連結重新邀請（permissions=0，不建立有權限的 managed role）：
-   - cartman: `https://discord.com/oauth2/authorize?client_id=1493964839079641118&permissions=0&scope=bot`
-   - stan:    `https://discord.com/oauth2/authorize?client_id=1494154472509800578&permissions=0&scope=bot`
-   - kyle:    `https://discord.com/oauth2/authorize?client_id=1494156557468962987&permissions=0&scope=bot`
-   - kenny:   `https://discord.com/oauth2/authorize?client_id=1494185596384575651&permissions=0&scope=bot`
-3. 邀請後確認 @cartman 補全只出現 bot user（有 BOT 標籤），不是 role
+填完後執行 `docker compose up -d` 讓容器吃到新值。
 
-**注意**：permissions=0 的情況下 bot 能否傳訊息，取決於 @everyone 預設權限（通常沒問題）
+### 🔴 [最高優先] 容器目前全部重啟中，尚未正常運行
 
-### ⚠️ OpenAB 架構限制：只能 thread 回覆，無法在頻道直接回
+**根本原因（已修）**：docker-compose.yml entrypoint 的 `openab run` 缺少 `-c` 旗標。
+`openab run /etc/openab/config.toml` → 應為 `openab run -c /etc/openab/config.toml`。
 
-使用者希望所有 bot 在同一個頻道聊天（非 thread），但 OpenAB 的設計是：
-收到 @mention → 建 thread → 在 thread 裡回應。這是 OpenAB 的架構，不是 config 問題。
-**若要真的在頻道直接回，需改 OpenAB 原始碼。**
+本次已修正 docker-compose.yml（已 commit），但還沒 `docker compose up -d` 套用。
+**下次上班第一件事**：`docker compose up -d`，再看 logs 確認四個容器都正常。
 
-### ⚠️ 洩漏的 bot token 需重設
+### ⚠️ Discord @mention 問題（managed role 衝突）— 可能已解決
 
-今晚對話中不小心貼出了一個 bot token（`MTUwMT...`），必須到 Discord Developer Portal → Bot → Reset Token 重設，並更新 `.env`。
+使用者今天**刪掉並重建了四個 Discord bot**，新 token 已填入 `.env`。
+舊問題（managed role 與 bot 同名導致 @mention 打到 role）**可能因重建而消失**，需實際測試確認。
+
+**驗收方式**：容器正常後，在 Discord 打 @cartman，確認：
+1. 補全清單裡 cartman 有「BOT」標籤
+2. bot 有在 thread 或頻道回應
+
+### ⚠️ Channel ID 需確認
+
+目前 `.env` 的 `CHANNEL_GENERAL=1494687723192320202`，但 2026-05-06 曾換過 server。
+若 bot 加進了不同的 server/channel，需確認 CHANNEL_GENERAL 是否正確。
+
+## 已完成（2026-05-11）
+
+- [x] **刪除並重建四個 Discord bot**（使用者手動操作），新 token 填入 `.env`
+- [x] **docker-compose.yml 修正**：`openab run` → `openab run -c`（新版 OpenAB 0.8.3-beta.7 需要 `-c` 旗標）
+- [x] **.gitignore 更新**：排除 `agents/*/.claude.json`（含帳號敏感資訊）和 `agents/*/.npm/`
 
 ## 已完成（2026-05-06 晚）
 
 - [x] **Discord 伺服器重建**：新 server「南方公園」，新 channel ID `1501549509573087383`
 - [x] **四個 bot 重新邀請**（OAuth2 含 permissions=68672）並完成 claude login
-- [x] **entrypoint 修正**：`openab run -c` → `openab run`（latest image 是舊語法，不支援 -c 旗標）
-- [x] **Config 清理**：
-  - Kyle `allow_user_messages` 改回 `mentions`（從 `multibot-mentions` 誤改過的）
-  - Cartman 和 Kyle 的 `RUST_LOG=debug` 移除
-  - 所有 agent 統一 `allow_user_messages = "mentions"`
+- [x] **entrypoint 修正**：`openab run -c` → `openab run`（當時 latest image 不支援 -c 旗標）
+- [x] **Config 清理**：所有 agent 統一 `allow_user_messages = "mentions"`
 - [x] **@mention 失效根本原因確認**：managed role 衝突，API 無法修改
-- [x] **CHANNEL_GENERAL 更新**：`.env` 已改為 `1501549509573087383`
 
-## 已完成（2026-05-06 早，另一台機器）
+## 已完成（2026-05-06 早）
 
-- [x] **claude-agent-acp 導入**：修正 ACP 協議相容問題（舊 claude CLI 不支援 ACP JSON-RPC）
-- [x] **OpenAB image 升至 0.8.3-beta.3**（docker compose build --pull）
-- [x] **entrypoint 改為 openab run -c**（當時 beta image 支援，但 latest 不支援）
+- [x] **claude-agent-acp 導入**：修正 ACP 協議相容問題
+- [x] **OpenAB image 升至 0.8.3-beta.3**
 
 ## 已完成（2026-04-27）
 
 - [x] Stan/Kyle/Kenny OAuth2 補邀請
 - [x] `allow_user_messages` 三種模式行為釐清
-- [x] 診斷 @mention 問題（當時誤以為是 OAuth2 未邀請）
 
 ## 已完成（2026-04-26）
 
@@ -70,7 +71,7 @@ Discord 邀請 bot 時自動建立同名 managed role（cartman/stan/kyle/kenny�
 
 ## 下次上班從這裡繼續
 
-1. **[最優先]** 到 Discord Developer Portal 重設洩漏的 bot token（`MTUwMT...`），更新 `.env`
-2. **[最優先]** Discord 伺服器設定 → 整合 → 移除四個 bot → 用 permissions=0 連結重新邀請
-3. **[測試]** 邀請後打 @cartman，確認補全清單只有 bot user → 送出 → 確認 bot 有回應
-4. **[確認後]** 看 bot 在 thread 回應的 UX 是否可接受，或考慮其他架構
+1. **[最優先]** 把 `ANTHROPIC_API_KEY` 填進 `.env`
+2. **[最優先]** `docker compose up -d`，確認四個容器不再重啟
+3. **[測試]** 在 Discord 打 @cartman，確認 bot 有回應
+4. **[確認]** `CHANNEL_GENERAL` 是否為正確的頻道 ID
