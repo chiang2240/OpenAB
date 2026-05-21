@@ -17,7 +17,7 @@ services:
     <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_CARTMAN}
-      - CHANNEL_GENERAL=${CHANNEL_GENERAL}
+      - CHANNEL_CARTMAN=${CHANNEL_CARTMAN}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GIT_AUTHOR_NAME=卡特曼 (Cartman)
       - GIT_COMMITTER_NAME=卡特曼 (Cartman)
@@ -41,7 +41,7 @@ services:
     <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_STAN}
-      - CHANNEL_GENERAL=${CHANNEL_GENERAL}
+      - CHANNEL_STAN=${CHANNEL_STAN}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GIT_AUTHOR_NAME=斯坦 (Stan)
       - GIT_COMMITTER_NAME=斯坦 (Stan)
@@ -65,7 +65,7 @@ services:
     <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KYLE}
-      - CHANNEL_GENERAL=${CHANNEL_GENERAL}
+      - CHANNEL_KYLE=${CHANNEL_KYLE}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GIT_AUTHOR_NAME=凱爾 (Kyle)
       - GIT_COMMITTER_NAME=凱爾 (Kyle)
@@ -89,7 +89,7 @@ services:
     <<: *entrypoint
     environment:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN_KENNY}
-      - CHANNEL_GENERAL=${CHANNEL_GENERAL}
+      - CHANNEL_KENNY=${CHANNEL_KENNY}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
       - GIT_AUTHOR_NAME=肯尼 (Kenny)
       - GIT_COMMITTER_NAME=肯尼 (Kenny)
