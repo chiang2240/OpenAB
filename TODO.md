@@ -1,5 +1,11 @@
 # TODO — 待辦事項
 
+## 待辦
+
+- [ ] 在 Discord 建立 4 個專屬頻道（`#cartman`、`#stan`、`#kyle`、`#kenny`），取得各頻道 ID
+- [ ] 更新 `.env`：將 `CHANNEL_GENERAL` 換成 `CHANNEL_CARTMAN`、`CHANNEL_STAN`、`CHANNEL_KYLE`、`CHANNEL_KENNY`
+- [ ] `docker compose up -d` 重啟讓新設定生效
+
 ## 已完成
 
 - [x] 將 `.kiro` 設定全部改成 Claude Code 的 `CLAUDE.md` 格式
